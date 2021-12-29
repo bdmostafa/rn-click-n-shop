@@ -1,5 +1,5 @@
 import { ADD_TO_CART } from "../actions/cart";
-import CartItem from "../../models/cart-item"
+import CartItem from "../../models/cart-item";
 
 const initialState = {
   items: {},
@@ -17,7 +17,10 @@ export default (state = initialState, action) => {
 
       if (state.items[addedProduct.id]) {
         updateOrNewCartItem = new CartItem(
-          state.items[addedProduct.id].quantity + 1
+          state.items[addedProduct.id].quantity + 1,
+          productPrice,
+          productTitle,
+          state.items[addedProduct.id].sum + productPrice
         );
       } else {
         updateOrNewCartItem = new CartItem(
