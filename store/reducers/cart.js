@@ -30,11 +30,13 @@ export default (state = initialState, action) => {
           productPrice
         );
       }
-
+console.log(state)
       return {
         ...state,
         items: { ...state.items, [addedProduct.id]: updateOrNewCartItem },
+        totalAmountOfCart: state.totalAmountOfCart + productPrice
       };
+
     default:
       return state;
   }
