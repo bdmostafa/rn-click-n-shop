@@ -1,7 +1,9 @@
 import React from "react";
 import { FlatList, Text } from "react-native";
+import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { useSelector, useDispatch } from "react-redux";
 import { ProductItem } from "../../components/shop/ProductItem";
+import { CustomHeaderButton } from "../../components/UI/CustomHeaderButton";
 import * as cartActions from "../../store/actions/cart";
 
 export const ProductOverviewScreen = ({ navigation }) => {
@@ -36,6 +38,19 @@ export const ProductOverviewScreen = ({ navigation }) => {
   );
 };
 
-ProductOverviewScreen.navigationOptions = {
-  headerTitle: "All Products",
+ProductOverviewScreen.navigationOptions = ({ navigation }) => {
+  return {
+    headerTitle: "All Products",
+    headerRight: () => (
+      <HeaderButtons headerButtonComponent={CustomHeaderButton}>
+        <Item
+          iconName={Platform.OS === "android" ? "md-cart" : "ios-cart"}
+          title="Cart"
+          onPress={() => {
+            navigation.navigate("Cart");
+          }}
+        />
+      </HeaderButtons>
+    ),
+  };
 };
