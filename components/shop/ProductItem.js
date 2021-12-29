@@ -102,20 +102,23 @@ const styles = StyleSheet.create({
   },
   description: {
     paddingHorizontal: 20,
+    fontFamily: 'open-sans'
   },
   title: {
     fontSize: 18,
   },
   priceContainer: {
     flexDirection: "row",
+    alignItems: "center",
   },
   offPrice: {
     textDecorationLine: "line-through",
   },
   price: {
-    fontSize: 14,
+    fontSize: 16,
     color: Colors.accent,
-    fontWeight: "bold",
+    // fontWeight: "bold",
+    fontFamily: 'open-sans-bold'
   },
   actions: {
     flexDirection: "row",

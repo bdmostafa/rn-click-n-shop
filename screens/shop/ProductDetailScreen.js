@@ -63,13 +63,14 @@ const styles = StyleSheet.create({
     textDecorationLine: "line-through",
   },
   price: {
-    fontSize: 22,
+    fontSize: 20,
     color: Colors.accent,
-    fontWeight: "bold",
+    fontFamily: 'open-sans-bold'
   },
   description: {
     fontSize: 14,
     textAlign: "center",
     marginHorizontal: 20,
+    fontFamily: 'open-sans'
   },
 });
