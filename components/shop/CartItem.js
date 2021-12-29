@@ -7,13 +7,14 @@ import {
   Platform,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import Colors from "../../constants/Colors";
 
 export const CartItem = ({ quantity, title, amount, onRemove }) => {
   return (
     <View style={styles.cartItem}>
       <View style={styles.itemData}>
-        <Text style={styles.quantity}>{quantity} </Text>
-        <Text style={styles.mainText}>{title}</Text>
+        <Text numberOfLines={2} style={styles.mainText}>{title}</Text>
+        <Text style={styles.quantity}>(Qty: {quantity})</Text>
       </View>
       <View style={styles.itemData}>
         <Text style={styles.mainText}>${amount.toFixed(2)}</Text>
@@ -43,8 +44,9 @@ const styles = StyleSheet.create({
   },
   quantity: {
     fontFamily: "open-sans",
-    color: "#888",
+    color: Colors.accent,
     fontSize: 16,
+    marginHorizontal: 10
   },
   mainText: {
     fontFamily: "open-sans-bold",
