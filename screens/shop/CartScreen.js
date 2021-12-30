@@ -4,11 +4,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { CartItem } from "../../components/shop/CartItem";
 import Colors from "../../constants/Colors";
 import * as cartActions from "../../store/actions/cart";
+import * as orderActions from "../../store/actions/orders";
 
 export const CartScreen = () => {
   const dispatch = useDispatch();
 
-  const cartTotalAmount = useSelector((state) => state.cart.totalAmountOfCart);
+  const totalAmountOfCart = useSelector(
+    (state) => state.cart.totalAmountOfCart
+  );
   const cartItems = useSelector((state) => {
     const cartItemsArray = [];
 
@@ -33,12 +36,15 @@ export const CartScreen = () => {
       <View style={styles.summary}>
         <Text style={styles.summaryText}>
           Total:
-          <Text style={styles.amount}>${cartTotalAmount.toFixed(2)}</Text>
+          <Text style={styles.amount}>${totalAmountOfCart.toFixed(2)}</Text>
         </Text>
         <Button
           color={Colors.accent}
           title="Order Now"
           disabled={cartItems.length === 0}
+          onPress={() => {
+            dispatch(orderActions.addOrder(cartItems, totalAmountOfCart));
+          }}
         />
       </View>
       <View style={styles.cartItemsContainer}>
