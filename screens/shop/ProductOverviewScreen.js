@@ -4,7 +4,9 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { useSelector, useDispatch } from "react-redux";
 import { ProductItem } from "../../components/shop/ProductItem";
 import { CustomHeaderButton } from "../../components/UI/CustomHeaderButton";
+import Colors from "../../constants/Colors";
 import * as cartActions from "../../store/actions/cart";
+import { Ionicons } from "@expo/vector-icons";
 
 export const ProductOverviewScreen = ({ navigation }) => {
   const products = useSelector((state) => state.products.availableProducts);
@@ -41,6 +43,17 @@ export const ProductOverviewScreen = ({ navigation }) => {
 ProductOverviewScreen.navigationOptions = ({ navigation }) => {
   return {
     headerTitle: "All Products",
+    headerLeft: () => (
+      <HeaderButtons headerButtonComponent={CustomHeaderButton}>
+        <Item
+          title="Menu"
+          iconName={Platform.OS === "android" ? "md-menu" : "ios-menu"}
+          onPress={() => {
+            navigation.toggleDrawer();
+          }}
+        />
+      </HeaderButtons>
+    ),
     headerRight: () => (
       <HeaderButtons headerButtonComponent={CustomHeaderButton}>
         <Item
@@ -51,6 +64,15 @@ ProductOverviewScreen.navigationOptions = ({ navigation }) => {
           }}
         />
       </HeaderButtons>
+      //   <Ionicons
+
+      //    name={Platform.OS === "android" ? "md-cart" : "ios-cart"}
+      //    size={23}
+      //    color={Platform.OS === "android" ? "white" : Colors.primary}
+      //    onPress={() => {
+      //           navigation.navigate("Cart");
+      //         }}
+      //  />
     ),
   };
 };
