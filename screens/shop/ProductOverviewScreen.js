@@ -1,5 +1,5 @@
 import React from "react";
-import { FlatList } from "react-native";
+import { Button, FlatList } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { useSelector, useDispatch } from "react-redux";
 import { ProductItem } from "../../components/shop/ProductItem";
@@ -11,6 +11,13 @@ import { Ionicons } from "@expo/vector-icons";
 export const ProductOverviewScreen = ({ navigation }) => {
   const products = useSelector((state) => state.products.availableProducts);
   const dispatch = useDispatch();
+
+  const selectItemHandler = (id, title) => {
+    navigation.navigate("ProductDetail", {
+      productId: id,
+      productTitle: title,
+    });
+  };
 
   return (
     <FlatList
@@ -25,16 +32,25 @@ export const ProductOverviewScreen = ({ navigation }) => {
           title={title}
           price={price}
           description={description}
-          onViewDetail={() => {
-            navigation.navigate("ProductDetail", {
-              productId: id,
-              productTitle: title,
-            });
+          onSelect={() => {
+            selectItemHandler(id, title);
           }}
-          onAddToCart={() => {
-            dispatch(cartActions.addToCart(item));
-          }}
-        />
+        >
+          <Button
+            color={Colors.primary}
+            title="View Details"
+            onPress={() => {
+              selectItemHandler(id, title);
+            }}
+          />
+          <Button
+            color={Colors.primary}
+            title="To Cart"
+            onPress={() => {
+              dispatch(cartActions.addToCart(item));
+            }}
+          />
+        </ProductItem>
       )}
     />
   );

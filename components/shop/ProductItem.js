@@ -4,7 +4,6 @@ import {
   Text,
   Image,
   StyleSheet,
-  Button,
   TouchableOpacity,
   TouchableNativeFeedback,
   Platform,
@@ -12,14 +11,7 @@ import {
 
 import Colors from "../../constants/Colors";
 
-export const ProductItem = ({
-  title,
-  image,
-  price,
-  description,
-  onViewDetail,
-  onAddToCart,
-}) => {
+export const ProductItem = ({ title, image, price, description, onSelect, children }) => {
   let TouchableComponent = TouchableOpacity;
 
   if (Platform.OS === "android" && Platform.Version >= 21) {
@@ -29,7 +21,7 @@ export const ProductItem = ({
   return (
     <View style={styles.productContainer}>
       <View style={styles.touchableArea}>
-        <TouchableComponent onPress={onViewDetail} useForeground>
+        <TouchableComponent onPress={onSelect} useForeground>
           <View>
             <View style={styles.imageContainer}>
               <Image style={styles.image} source={{ uri: image }} />
@@ -47,18 +39,7 @@ export const ProductItem = ({
             <View style={styles.description}>
               <Text>{description.substring(0, 45)}</Text>
             </View>
-            <View style={styles.actions}>
-              <Button
-                color={Colors.primary}
-                title="View Details"
-                onPress={onViewDetail}
-              />
-              <Button
-                color={Colors.primary}
-                title="To Cart"
-                onPress={onAddToCart}
-              />
-            </View>
+            <View style={styles.actions}>{children}</View>
           </View>
         </TouchableComponent>
       </View>
@@ -102,7 +83,7 @@ const styles = StyleSheet.create({
   },
   description: {
     paddingHorizontal: 20,
-    fontFamily: 'open-sans'
+    fontFamily: "open-sans",
   },
   title: {
     fontSize: 18,
@@ -118,7 +99,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: Colors.accent,
     // fontWeight: "bold",
-    fontFamily: 'open-sans-bold'
+    fontFamily: "open-sans-bold",
   },
   actions: {
     flexDirection: "row",
