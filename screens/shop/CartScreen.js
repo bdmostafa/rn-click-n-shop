@@ -63,6 +63,7 @@ export const CartScreen = () => {
                 quantity={quantity}
                 title={productTitle}
                 amount={sum}
+                deletable
                 onRemove={() => {
                   dispatch(cartActions.removeFromCart(productId));
                 }}
@@ -76,8 +77,8 @@ export const CartScreen = () => {
 };
 
 CartScreen.navigationOptions = {
-    headerTitle: "Your Cart"
-}
+  headerTitle: "Your Cart",
+};
 
 const styles = StyleSheet.create({
   screen: {
