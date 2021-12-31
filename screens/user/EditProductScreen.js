@@ -8,10 +8,13 @@ import {
   Platform,
 } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { CustomHeaderButton } from "../../components/UI/CustomHeaderButton";
+import * as productActions from "../../store/actions/products";
 
 export const EditProductScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
+
   const productId = navigation.getParam("productId");
   const editedProduct = useSelector((state) =>
     state.products.userProducts.find((product) => product.id === productId)
@@ -27,12 +30,21 @@ export const EditProductScreen = ({ navigation }) => {
   );
 
   const submitHandler = useCallback(() => {
-    console.log("Submitting!!!")
-  }, [])
+    // console.log("Submitting!!!")
+    if (editedProduct) {
+      dispatch(
+        productActions.updateProduct(productId, title, description, imageUrl)
+      );
+    } else {
+      dispatch(
+        productActions.createProduct(title, description, imageUrl, +price)
+      );
+    }
+  }, [dispatch, productId, title, description, imageUrl, price]);
 
   useEffect(() => {
-   navigation.setParams({submit: submitHandler})
-  }, [submitHandler])
+    navigation.setParams({ submit: submitHandler });
+  }, [submitHandler]);
 
   return (
     <ScrollView>
