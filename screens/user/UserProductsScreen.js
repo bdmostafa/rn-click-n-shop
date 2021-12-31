@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, FlatList, Platform } from "react-native";
+import { Alert, Button, FlatList, Platform } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { useDispatch, useSelector } from "react-redux";
 import { ProductItem } from "../../components/shop/ProductItem";
@@ -13,6 +13,20 @@ export const UserProductsScreen = ({ navigation }) => {
 
   const editProductHandler = (productId) => {
     navigation.navigate("EditProduct", { productId });
+  };
+
+  const deleteHandler = (id) => {
+    Alert.alert("Are you sure?", "Really want to delete this product?", [
+      { text: "No", style: "default" },
+      {
+        text: "Yes",
+        style: "destructive",
+
+        onPress: () => {
+          dispatch(productActions.deleteProduct(id));
+        },
+      },
+    ]);
   };
 
   return (
@@ -40,7 +54,7 @@ export const UserProductsScreen = ({ navigation }) => {
             color={Colors.primary}
             title="Delete"
             onPress={() => {
-              dispatch(productActions.deleteProduct(id));
+              deleteHandler(id);
             }}
           />
         </ProductItem>
@@ -64,15 +78,15 @@ UserProductsScreen.navigationOptions = ({ navigation }) => {
       </HeaderButtons>
     ),
     headerRight: (
-        <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-          <Item
-            title="Add"
-            iconName={Platform.OS === "android" ? "md-create" : "ios-create"}
-            onPress={() => {
-              navigation.navigate('EditProduct');
-            }}
-          />
-        </HeaderButtons>
-      ),
+      <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+        <Item
+          title="Add"
+          iconName={Platform.OS === "android" ? "md-create" : "ios-create"}
+          onPress={() => {
+            navigation.navigate("EditProduct");
+          }}
+        />
+      </HeaderButtons>
+    ),
   };
 };

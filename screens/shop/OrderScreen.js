@@ -4,16 +4,18 @@ import { useSelector } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import CustomHeaderButton from "../../components/UI/CustomHeaderButton";
 import { OrderItem } from "../../components/shop/OrderItem";
+import { Card } from "../../components/UI/Card";
+import { FallbackText } from "../../components/UI/FallbackText";
 
 export const OrderScreen = () => {
   const orders = useSelector((state) => state.orders.orders);
 
   return (
-    <View style={styles.orderItemsContainer}>
+    <Card style={styles.orderItemsContainer}>
       {orders.length === 0 ? (
-        <Text style={styles.noOrderText}>
+        <FallbackText>
           No order item found. Please go back to cart page
-        </Text>
+        </FallbackText>
       ) : (
         <FlatList
           data={orders}
@@ -28,7 +30,7 @@ export const OrderScreen = () => {
           )}
         />
       )}
-    </View>
+    </Card>
   );
 };
 
@@ -51,16 +53,7 @@ OrderScreen.navigationOptions = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   orderItemsContainer: {
-    shadowColor: "black",
-    shadowOpacity: 0.26,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 8,
-    borderRadius: 10,
-    backgroundColor: "white",
+    elevation: 0,
     margin: 20,
-  },
-  noOrderText: {
-    marginHorizontal: 50,
-    marginVertical: 50,
-  },
+  }
 });

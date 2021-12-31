@@ -2,6 +2,8 @@ import React from "react";
 import { View, Text, FlatList, Button, StyleSheet } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { CartItem } from "../../components/shop/CartItem";
+import { Card } from "../../components/UI/Card";
+import { FallbackText } from "../../components/UI/FallbackText";
 import Colors from "../../constants/Colors";
 import * as cartActions from "../../store/actions/cart";
 import * as orderActions from "../../store/actions/orders";
@@ -32,7 +34,7 @@ export const CartScreen = () => {
   });
 
   return (
-    <View style={styles.screen}>
+    <Card style={styles.screen}>
       <View style={styles.summary}>
         <Text style={styles.summaryText}>
           Total:
@@ -51,9 +53,9 @@ export const CartScreen = () => {
       </View>
       <View style={styles.cartItemsContainer}>
         {cartItems.length === 0 ? (
-          <Text style={styles.noCartText}>
+          <FallbackText>
             No cart item found. Please go back to product page and add to cart
-          </Text>
+          </FallbackText>
         ) : (
           <FlatList
             data={cartItems}
@@ -74,7 +76,7 @@ export const CartScreen = () => {
           />
         )}
       </View>
-    </View>
+    </Card>
   );
 };
 
@@ -90,15 +92,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 20,
+    marginHorizontal: 10,
+    marginVertical: 10,
     padding: 10,
-    shadowColor: "black",
-    shadowOpacity: 0.26,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 8,
-    elevation: 5,
-    borderRadius: 10,
-    backgroundColor: "white",
   },
   summaryText: {
     fontFamily: "open-sans-bold",
@@ -116,8 +112,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: "white",
   },
-  noCartText: {
-    marginHorizontal: 50,
-    marginVertical: 50,
-  },
+  // noCartText: {
+  //   marginHorizontal: 50,
+  //   marginVertical: 50,
+  // },
 });
