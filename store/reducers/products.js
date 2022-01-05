@@ -49,7 +49,7 @@ export default (state = initialState, action) => {
       updatedUserProducts[userProductIdx] = updatedProduct;
 
       const availableProductIdx = state.availableProducts.findIndex(
-        (product) => product.id === id
+        (product) => product.id === action.productId
       );
 
       const updatedAvailableProducts = [...state.availableProducts];
