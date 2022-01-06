@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, FlatList } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { useSelector, useDispatch } from "react-redux";
@@ -6,6 +6,7 @@ import { ProductItem } from "../../components/shop/ProductItem";
 import { CustomHeaderButton } from "../../components/UI/CustomHeaderButton";
 import Colors from "../../constants/Colors";
 import * as cartActions from "../../store/actions/cart";
+import * as productsActions from "../../store/actions/products";
 import { Ionicons } from "@expo/vector-icons";
 
 export const ProductOverviewScreen = ({ navigation }) => {
@@ -18,6 +19,10 @@ export const ProductOverviewScreen = ({ navigation }) => {
       productTitle: title,
     });
   };
+
+  useEffect(() => {
+    dispatch(productsActions.getProducts());
+  }, [dispatch]);
 
   return (
     <FlatList
