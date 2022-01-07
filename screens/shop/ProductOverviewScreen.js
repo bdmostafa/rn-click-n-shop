@@ -46,6 +46,14 @@ export const ProductOverviewScreen = ({ navigation }) => {
     fetchProducts();
   }, [dispatch, fetchProducts]);
 
+  useEffect(() => {
+    const willFocusSub = navigation.addListener("willFocus", fetchProducts);
+
+    return () => {
+      willFocusSub.remove();
+    };
+  }, [fetchProducts]);
+
   if (isLoading) {
     return (
       <View style={styles.centered}>
@@ -58,7 +66,7 @@ export const ProductOverviewScreen = ({ navigation }) => {
     return (
       <View style={styles.centered}>
         <Text>An error occurred!</Text>
-        <Text style={{marginVertical: 10}}> {isError}</Text>
+        <Text style={{ marginVertical: 10 }}> {isError}</Text>
         <Button
           title="Try again"
           onPress={fetchProducts}
@@ -155,6 +163,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    fontFamily: 'open-sans'
+    fontFamily: "open-sans",
   },
 });
