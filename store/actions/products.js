@@ -7,22 +7,31 @@ export const DELETE_PRODUCT = "DELETE_PRODUCT";
 
 export const getProducts = () => {
   return async (dispatch) => {
-    const response = await fetch(
-      "https://rn-click-n-shop-default-rtdb.firebaseio.com/products.json"
-    );
-
-    const resData = await response.json();
-    const loadedProducts = [];
-
-    for (const key in resData) {
-      const { title, imageUrl, description, price } = resData[key];
-
-      loadedProducts.push(
-        new Product(key, "u1", title, imageUrl, description, price)
+    try {
+      const response = await fetch(
+        "https://rn-click-n-shop-default-rtdb.firebaseio.com/products.json"
       );
-    }
 
-    dispatch({ type: GET_PRODUCTS, products: loadedProducts });
+      if (!response.ok) {
+        throw new Error("Something went wrong!");
+      }
+
+      const resData = await response.json();
+      const loadedProducts = [];
+
+      for (const key in resData) {
+        const { title, imageUrl, description, price } = resData[key];
+
+        loadedProducts.push(
+          new Product(key, "u1", title, imageUrl, description, price)
+        );
+      }
+
+      dispatch({ type: GET_PRODUCTS, products: loadedProducts });
+    } catch (err) {
+      // send to custom analytics server
+      throw err;
+    }
   };
 };
 

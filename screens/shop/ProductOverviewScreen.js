@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Button,
   FlatList,
   StyleSheet,
+  Text,
   View,
 } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
@@ -18,6 +19,7 @@ import { Ionicons } from "@expo/vector-icons";
 export const ProductOverviewScreen = ({ navigation }) => {
   const products = useSelector((state) => state.products.availableProducts);
   const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState();
   const dispatch = useDispatch();
 
   const selectItemHandler = (id, title) => {
@@ -27,19 +29,49 @@ export const ProductOverviewScreen = ({ navigation }) => {
     });
   };
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      setIsLoading(true);
+  const fetchProducts = useCallback(async () => {
+    setIsError(null);
+    setIsLoading(true);
+
+    try {
       await dispatch(productsActions.getProducts());
-      setIsLoading(false);
-    };
+    } catch (err) {
+      setIsError(err.message);
+    }
+
+    setIsLoading(false);
+  }, [dispatch, setIsError, setIsLoading]);
+
+  useEffect(() => {
     fetchProducts();
-  }, [dispatch]);
+  }, [dispatch, fetchProducts]);
 
   if (isLoading) {
     return (
       <View style={styles.centered}>
         <ActivityIndicator size="large" color={Colors.primary} />
+      </View>
+    );
+  }
+
+  if (isError) {
+    return (
+      <View style={styles.centered}>
+        <Text>An error occurred!</Text>
+        <Text style={{marginVertical: 10}}> {isError}</Text>
+        <Button
+          title="Try again"
+          onPress={fetchProducts}
+          color={Colors.primary}
+        />
+      </View>
+    );
+  }
+
+  if (!isLoading && products.length === 0) {
+    return (
+      <View style={styles.centered}>
+        <Text>No products found. Maybe start adding some!</Text>
       </View>
     );
   }
@@ -123,5 +155,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    fontFamily: 'open-sans'
   },
 });
