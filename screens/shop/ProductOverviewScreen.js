@@ -1,5 +1,11 @@
-import React, { useEffect } from "react";
-import { Button, FlatList } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  ActivityIndicator,
+  Button,
+  FlatList,
+  StyleSheet,
+  View,
+} from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { useSelector, useDispatch } from "react-redux";
 import { ProductItem } from "../../components/shop/ProductItem";
@@ -11,6 +17,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 export const ProductOverviewScreen = ({ navigation }) => {
   const products = useSelector((state) => state.products.availableProducts);
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
 
   const selectItemHandler = (id, title) => {
@@ -21,8 +28,21 @@ export const ProductOverviewScreen = ({ navigation }) => {
   };
 
   useEffect(() => {
-    dispatch(productsActions.getProducts());
+    const fetchProducts = async () => {
+      setIsLoading(true);
+      await dispatch(productsActions.getProducts());
+      setIsLoading(false);
+    };
+    fetchProducts();
   }, [dispatch]);
+
+  if (isLoading) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator size="large" color={Colors.primary} />
+      </View>
+    );
+  }
 
   return (
     <FlatList
@@ -97,3 +117,11 @@ ProductOverviewScreen.navigationOptions = ({ navigation }) => {
     ),
   };
 };
+
+const styles = StyleSheet.create({
+  centered: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
