@@ -17,9 +17,11 @@ import * as productsActions from "../../store/actions/products";
 import { Ionicons } from "@expo/vector-icons";
 
 export const ProductOverviewScreen = ({ navigation }) => {
-  const products = useSelector((state) => state.products.availableProducts);
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState();
+
+  const products = useSelector((state) => state.products.availableProducts);
   const dispatch = useDispatch();
 
   const selectItemHandler = (id, title) => {
@@ -31,7 +33,7 @@ export const ProductOverviewScreen = ({ navigation }) => {
 
   const fetchProducts = useCallback(async () => {
     setIsError(null);
-    setIsLoading(true);
+    setIsRefreshing(true);
 
     try {
       await dispatch(productsActions.getProducts());
@@ -39,11 +41,15 @@ export const ProductOverviewScreen = ({ navigation }) => {
       setIsError(err.message);
     }
 
-    setIsLoading(false);
+    setIsRefreshing(false);
   }, [dispatch, setIsError, setIsLoading]);
 
   useEffect(() => {
-    fetchProducts();
+    setIsLoading(true);
+
+    fetchProducts().then(() => {
+      setIsLoading(false);
+    });
   }, [dispatch, fetchProducts]);
 
   useEffect(() => {
@@ -86,6 +92,8 @@ export const ProductOverviewScreen = ({ navigation }) => {
 
   return (
     <FlatList
+      onRefresh={fetchProducts}
+      refreshing={isRefreshing}
       data={products}
       keyExtractor={(product) => product.id}
       renderItem={({
