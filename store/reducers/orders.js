@@ -1,5 +1,5 @@
 import Order from "../../models/order";
-import { ADD_ORDER } from "../actions/orders";
+import { ADD_ORDER, GET_ORDERS } from "../actions/orders";
 
 const initialState = {
   orders: [],
@@ -8,15 +8,19 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case ADD_ORDER:
-      const newOrder = new Order(
-        new Date().valueOf(),
-        action.orderData.cartItems,
-        action.orderData.totalAmountOfCart,
-        new Date()
-      );
+      const { id, cartItems, totalAmountOfCart, date } = action.orderData;
+
+      const newOrder = new Order(id, cartItems, totalAmountOfCart, date);
+
       return {
         ...state,
         orders: state.orders.concat(newOrder),
+      };
+
+    case GET_ORDERS:
+      return {
+        ...state,
+        orders: action.orders,
       };
 
     default:
