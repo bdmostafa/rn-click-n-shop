@@ -53,6 +53,10 @@ export const createProduct = (title, description, imageUrl, price) => {
       }
     );
 
+    if (!response.ok) {
+      throw new Error("Something went wrong!");
+    }
+
     const resData = await response.json();
 
     dispatch({
@@ -70,7 +74,7 @@ export const createProduct = (title, description, imageUrl, price) => {
 
 export const updateProduct = (productId, title, description, imageUrl) => {
   return async (dispatch) => {
-    await fetch(
+    const response = await fetch(
       `https://rn-click-n-shop-default-rtdb.firebaseio.com/products/${productId}.json`,
       {
         method: "PATCH",
@@ -84,6 +88,10 @@ export const updateProduct = (productId, title, description, imageUrl) => {
         }),
       }
     );
+
+    if (!response.ok) {
+      throw new Error("Something went wrong!");
+    }
 
     dispatch({
       type: UPDATE_PRODUCT,
@@ -99,12 +107,17 @@ export const updateProduct = (productId, title, description, imageUrl) => {
 
 export const deleteProduct = (productId) => {
   return async (dispatch) => {
-    await fetch(
+    const response = await fetch(
       `https://rn-click-n-shop-default-rtdb.firebaseio.com/products/${productId}.json`,
       {
         method: "DELETE",
       }
     );
+
+    if (!response.ok) {
+      throw new Error("Something went wrong!");
+    }
+
     dispatch({ type: DELETE_PRODUCT, productId });
   };
 };
