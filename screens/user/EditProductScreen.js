@@ -195,6 +195,7 @@ export const EditProductScreen = ({ navigation }) => {
             initiallyValid={!!editedProduct}
             required
             minLength={5}
+            returnKeyType="default"
           />
         </View>
       </ScrollView>

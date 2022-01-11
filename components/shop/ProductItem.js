@@ -34,7 +34,7 @@ export const ProductItem = ({ title, image, price, description, onSelect, childr
                   {" "}
                   ${(price * 1.1).toFixed(2)} (10% Off){" "}
                 </Text>
-                <Text style={styles.price}> ${price.toFixed(2)}</Text>
+                <Text style={styles.price}> ${price && price.toFixed(2)}</Text>
               </View>
             </View>
             <View style={styles.description}>
