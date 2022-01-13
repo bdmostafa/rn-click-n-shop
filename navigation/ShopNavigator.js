@@ -1,4 +1,4 @@
-import { createAppContainer } from "react-navigation";
+import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import { Platform } from "react-native";
 import { ProductOverviewScreen } from "../screens/shop/ProductOverviewScreen";
@@ -10,6 +10,7 @@ import { createDrawerNavigator } from "react-navigation-drawer";
 import { Ionicons } from "@expo/vector-icons";
 import { UserProductsScreen } from "../screens/user/UserProductsScreen";
 import { EditProductScreen } from "../screens/user/EditProductScreen";
+import { AuthScreen } from "../screens/user/AuthScreen";
 
 const defaultNavOptions = {
   headerStyle: {
@@ -65,7 +66,7 @@ const OrdersNavigator = createStackNavigator(
 const AdminNavigator = createStackNavigator(
   {
     UserProducts: UserProductsScreen,
-    EditProduct: EditProductScreen
+    EditProduct: EditProductScreen,
   },
   {
     navigationOptions: {
@@ -81,11 +82,20 @@ const AdminNavigator = createStackNavigator(
   }
 );
 
+const AuthNavigator = createStackNavigator(
+  {
+    Auth: AuthScreen,
+  },
+  {
+    defaultNavigationOptions: defaultNavOptions,
+  }
+);
+
 const ShopNavigator = createDrawerNavigator(
   {
     Products: ProductsNavigator,
     Orders: OrdersNavigator,
-    Admin: AdminNavigator
+    Admin: AdminNavigator,
   },
   {
     contentOptions: {
@@ -94,4 +104,9 @@ const ShopNavigator = createDrawerNavigator(
   }
 );
 
-export default createAppContainer(ShopNavigator);
+const MainNavigator = createSwitchNavigator({
+  Auth: AuthNavigator,
+  Shop: ShopNavigator,
+});
+
+export default createAppContainer(MainNavigator);
