@@ -36,9 +36,11 @@ export const getProducts = () => {
 };
 
 export const createProduct = (title, description, imageUrl, price) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
+    const token = getState().auth.token;
+
     const response = await fetch(
-      "https://rn-click-n-shop-default-rtdb.firebaseio.com/products.json",
+      `https://rn-click-n-shop-default-rtdb.firebaseio.com/products.json?auth=${token}`,
       {
         method: "POST",
         headers: {
@@ -54,7 +56,8 @@ export const createProduct = (title, description, imageUrl, price) => {
     );
 
     if (!response.ok) {
-      throw new Error("Something went wrong!");
+      const errMessage = await response.json();
+      throw new Error(errMessage.error);
     }
 
     const resData = await response.json();
@@ -73,9 +76,11 @@ export const createProduct = (title, description, imageUrl, price) => {
 };
 
 export const updateProduct = (productId, title, description, imageUrl) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
+    const token = getState().auth.token;
+
     const response = await fetch(
-      `https://rn-click-n-shop-default-rtdb.firebaseio.com/products/${productId}.json`,
+      `https://rn-click-n-shop-default-rtdb.firebaseio.com/products/${productId}.json?auth=${token}`,
       {
         method: "PATCH",
         headers: {
@@ -90,7 +95,8 @@ export const updateProduct = (productId, title, description, imageUrl) => {
     );
 
     if (!response.ok) {
-      throw new Error("Something went wrong!");
+      const errMessage = await response.json();
+      throw new Error(errMessage.error);
     }
 
     dispatch({
@@ -106,16 +112,19 @@ export const updateProduct = (productId, title, description, imageUrl) => {
 };
 
 export const deleteProduct = (productId) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
+    const token = getState().auth.token;
+    console.log(token, getState());
     const response = await fetch(
-      `https://rn-click-n-shop-default-rtdb.firebaseio.com/products/${productId}.json`,
+      `https://rn-click-n-shop-default-rtdb.firebaseio.com/products/${productId}.json?auth=${token}`,
       {
         method: "DELETE",
       }
     );
 
     if (!response.ok) {
-      throw new Error("Something went wrong!");
+      const errMessage = await response.json();
+      throw new Error(errMessage.error);
     }
 
     dispatch({ type: DELETE_PRODUCT, productId });

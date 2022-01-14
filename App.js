@@ -5,6 +5,7 @@ import * as Font from "expo-font";
 import productReducers from "./store/reducers/products";
 import cartReducers from "./store/reducers/cart";
 import orderReducers from "./store/reducers/orders";
+import authReducers from "./store/reducers/auth";
 import ShopNavigator from "./navigation/ShopNavigator";
 import { useState } from "react";
 import AppLoading from "expo-app-loading";
@@ -12,6 +13,7 @@ import AppLoading from "expo-app-loading";
 import ReduxThunk from "redux-thunk";
 
 const rootReducer = combineReducers({
+  auth: authReducers,
   products: productReducers,
   cart: cartReducers,
   orders: orderReducers,
