@@ -19,7 +19,6 @@ export default (state = initialState, action) => {
 
     case GET_ORDERS:
       return {
-        ...state,
         orders: action.orders,
       };
 

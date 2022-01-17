@@ -4,11 +4,12 @@ export const ADD_ORDER = "ADD_ORDER";
 export const GET_ORDERS = "GET_ORDERS";
 
 export const addOrder = (cartItems, totalAmountOfCart) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
+    const { token, userId } = getState().auth;
     const date = new Date().toISOString();
 
     const response = await fetch(
-      "https://rn-click-n-shop-default-rtdb.firebaseio.com/orders.json",
+      `https://rn-click-n-shop-default-rtdb.firebaseio.com/orders/${userId}.json?auth=${token}`,
       {
         method: "POST",
         headers: {
@@ -21,6 +22,8 @@ export const addOrder = (cartItems, totalAmountOfCart) => {
         }),
       }
     );
+
+    console.log(response);
 
     if (!response.ok) {
       throw new Error("Something went wrong!");
@@ -41,10 +44,12 @@ export const addOrder = (cartItems, totalAmountOfCart) => {
 };
 
 export const getOrders = () => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
+    const userId = getState().auth.userId;
+
     try {
       const response = await fetch(
-        "https://rn-click-n-shop-default-rtdb.firebaseio.com/orders.json"
+        `https://rn-click-n-shop-default-rtdb.firebaseio.com/orders/${userId}.json`
       );
 
       if (!response.ok) {
@@ -56,10 +61,10 @@ export const getOrders = () => {
       const loadedOrders = [];
 
       for (const key in resData) {
-        const { items, totalAmountOfCart, date } = resData[key];
+        const { cartItems, totalAmountOfCart, date } = resData[key];
 
         loadedOrders.push(
-          new Order(key, items, totalAmountOfCart, new Date(date))
+          new Order(key, cartItems, totalAmountOfCart, new Date(date))
         );
       }
 

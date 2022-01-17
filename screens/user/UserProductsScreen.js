@@ -1,11 +1,12 @@
 import React from "react";
-import { Alert, Button, FlatList, Platform } from "react-native";
+import { Alert, Button, FlatList, Platform, View } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { useDispatch, useSelector } from "react-redux";
 import { ProductItem } from "../../components/shop/ProductItem";
 import { CustomHeaderButton } from "../../components/UI/CustomHeaderButton";
 import * as productActions from "../../store/actions/products";
 import Colors from "../../constants/Colors";
+import { FallbackText } from "../../components/UI/FallbackText";
 
 export const UserProductsScreen = ({ navigation }) => {
   const userProducts = useSelector((state) => state.products.userProducts);
@@ -30,36 +31,46 @@ export const UserProductsScreen = ({ navigation }) => {
   };
 
   return (
-    <FlatList
-      keyExtractor={(item) => item.id}
-      data={userProducts}
-      renderItem={({ item: { id, title, imageUrl, price, description } }) => (
-        <ProductItem
-          image={imageUrl}
-          title={title}
-          price={price}
-          description={description}
-          onSelect={() => {
-            editProductHandler(id);
-          }}
-        >
-          <Button
-            color={Colors.primary}
-            title="Update"
-            onPress={() => {
-              editProductHandler(id);
-            }}
-          />
-          <Button
-            color={Colors.primary}
-            title="Delete"
-            onPress={() => {
-              deleteHandler(id);
-            }}
-          />
-        </ProductItem>
+    <View>
+      {userProducts.length === 0 ? (
+        <FallbackText>
+          No products found. Maybe start creating some?
+        </FallbackText>
+      ) : (
+        <FlatList
+          keyExtractor={(item) => item.id}
+          data={userProducts}
+          renderItem={({
+            item: { id, title, imageUrl, price, description },
+          }) => (
+            <ProductItem
+              image={imageUrl}
+              title={title}
+              price={price}
+              description={description}
+              onSelect={() => {
+                editProductHandler(id);
+              }}
+            >
+              <Button
+                color={Colors.primary}
+                title="Update"
+                onPress={() => {
+                  editProductHandler(id);
+                }}
+              />
+              <Button
+                color={Colors.primary}
+                title="Delete"
+                onPress={() => {
+                  deleteHandler(id);
+                }}
+              />
+            </ProductItem>
+          )}
+        />
       )}
-    />
+    </View>
   );
 };
 
