@@ -23,8 +23,6 @@ export const addOrder = (cartItems, totalAmountOfCart) => {
       }
     );
 
-    console.log(response);
-
     if (!response.ok) {
       throw new Error("Something went wrong!");
     }

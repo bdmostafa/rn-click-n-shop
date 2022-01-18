@@ -6,11 +6,12 @@ import productReducers from "./store/reducers/products";
 import cartReducers from "./store/reducers/cart";
 import orderReducers from "./store/reducers/orders";
 import authReducers from "./store/reducers/auth";
-import ShopNavigator from "./navigation/ShopNavigator";
+// import ShopNavigator from "./navigation/ShopNavigator";
 import { useState } from "react";
 import AppLoading from "expo-app-loading";
 // import { composeWithDevTools } from "redux-devtools-extension";
 import ReduxThunk from "redux-thunk";
+import { NavigationContainer } from "./navigation/NavigationContainer";
 
 const rootReducer = combineReducers({
   auth: authReducers,
@@ -46,7 +47,8 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <ShopNavigator />
+      {/* <ShopNavigator /> */}
+      <NavigationContainer />
     </Provider>
   );
 }

@@ -124,7 +124,7 @@ export const updateProduct = (productId, title, description, imageUrl) => {
 export const deleteProduct = (productId) => {
   return async (dispatch, getState) => {
     const token = getState().auth.token;
-    console.log(token, getState());
+    
     const response = await fetch(
       `https://rn-click-n-shop-default-rtdb.firebaseio.com/products/${productId}.json?auth=${token}`,
       {

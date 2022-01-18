@@ -3,7 +3,7 @@ import { ActivityIndicator, StyleSheet, View } from "react-native";
 import { useDispatch } from "react-redux";
 import Colors from "../constants/Colors";
 import * as authActions from "../store/actions/auth";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const StartUpScreen = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -11,7 +11,7 @@ export const StartUpScreen = ({ navigation }) => {
   useEffect(() => {
     const goLogin = async () => {
       const userData = await AsyncStorage.getItem("userData");
-      console.log(userData)
+      console.log("userData===", userData);
 
       if (!userData) {
         navigation.navigate("Auth");
@@ -27,8 +27,10 @@ export const StartUpScreen = ({ navigation }) => {
         return;
       }
 
+      const expirationTime = expirationDate.getTime() - new Date().getTime();
+
       navigation.navigate("Shop");
-      dispatch(authActions.authenticate(userId, token));
+      dispatch(authActions.authenticate(userId, token, expirationTime));
     };
 
     goLogin();
