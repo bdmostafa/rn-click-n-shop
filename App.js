@@ -12,6 +12,13 @@ import AppLoading from "expo-app-loading";
 // import { composeWithDevTools } from "redux-devtools-extension";
 import ReduxThunk from "redux-thunk";
 import { NavigationContainer } from "./navigation/NavigationContainer";
+import { LogBox } from "react-native";
+import { enableScreens } from "react-native-screens";
+
+//Ignore all log notifications
+LogBox.ignoreAllLogs();
+
+enableScreens();
 
 const rootReducer = combineReducers({
   auth: authReducers,

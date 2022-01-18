@@ -21,7 +21,14 @@ export default (state = initialState, action) => {
       };
 
     case CREATE_PRODUCT:
-      const { id, ownerId, title, imageUrl, description, price } = action.productData;
+      const {
+        id,
+        ownerId,
+        title,
+        imageUrl,
+        description,
+        price,
+      } = action.productData;
 
       const newProduct = new Product(
         id,

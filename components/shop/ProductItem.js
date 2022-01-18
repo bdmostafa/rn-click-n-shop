@@ -12,7 +12,14 @@ import {
 import Colors from "../../constants/Colors";
 import { Card } from "../UI/Card";
 
-export const ProductItem = ({ title, image, price, description, onSelect, children }) => {
+export const ProductItem = ({
+  title,
+  image,
+  price,
+  description,
+  onSelect,
+  children,
+}) => {
   let TouchableComponent = TouchableOpacity;
 
   if (Platform.OS === "android" && Platform.Version >= 21) {

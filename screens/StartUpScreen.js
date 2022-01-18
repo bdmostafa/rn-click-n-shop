@@ -11,7 +11,6 @@ export const StartUpScreen = ({ navigation }) => {
   useEffect(() => {
     const goLogin = async () => {
       const userData = await AsyncStorage.getItem("userData");
-      console.log("userData===", userData);
 
       if (!userData) {
         navigation.navigate("Auth");

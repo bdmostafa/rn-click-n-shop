@@ -98,8 +98,9 @@ export const InputText = (props) => {
         onChangeText={textChangeHandler}
         onBlur={lostFocusHandler}
       />
-      {!inputState.isValid &&
-        inputState.touched && (<Text style={styles.errorMsg}>{errorText}</Text>)}
+      {!inputState.isValid && inputState.touched && (
+        <Text style={styles.errorMsg}>{errorText}</Text>
+      )}
     </View>
   );
 };
